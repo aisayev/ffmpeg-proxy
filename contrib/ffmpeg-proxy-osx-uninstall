@@ -1,0 +1,11 @@
+#!/bin/zsh
+
+echo "UnInstalling ffmpeg-proxy..."
+
+PREFIX="/usr/local/sbin"
+
+sudo launchctl unload -w /Library/LaunchDaemons/io.github.aisayev.ffmpeg-proxy.plist
+sudo rm /Library/LaunchDaemons/io.github.aisayev.ffmpeg-proxy.plist
+sudo rm $PREFIX/ffmpeg-proxy
+
+echo "Done."
