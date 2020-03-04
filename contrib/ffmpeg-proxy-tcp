@@ -1,0 +1,14 @@
+# default: on
+# description: https://github.com/aisayev/ffmpeg-proxy
+
+service ffmpeg-proxy
+{
+	port		= 32033
+	socket_type	= stream
+	protocol	= tcp
+	wait		= no
+	disable		= no
+	user		= nobody
+	server 		= /usr/local/sbin/ffmpeg-proxy
+#	only_from	= 127.0.0.1
+}                                                                               
