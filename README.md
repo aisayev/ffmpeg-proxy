@@ -37,5 +37,5 @@ Tested with Ubuntu 18.04
 
 ## Docker
 
-* Run `docker run -p 32033:32033 aisayev/ffmpeg-proxy`
+* Run `docker run -p 32033:32033 -d aisayev/ffmpeg-proxy`
 
