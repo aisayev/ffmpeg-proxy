@@ -7,7 +7,7 @@ Simple proxy server for test usage. It has been designed for proxying HLS (or ot
 
 ## Usage
 
-Sample URLs to launch with your favorite hardware or software media player: 
+Sample URLs to launch with your hardware or software media player: 
 
 `http://127.0.0.1:32033/http://streaming.service.com/live.m3u8`
 `http://127.0.0.1:32033/https://streaming.service.com/live.m3u8`
@@ -35,4 +35,7 @@ Tested with Ubuntu 18.04
 * Add service `sudo echo -e "ffmpeg-proxy\t32033/tcp\t\t\t# ffmpeg-proxy server" >> /etc/services`
 * Restart xinetd with `sudo service xinetd restart`
 
+## Docker
+
+* Run `docker run -p 32033:32033 aisayev/ffmpeg-proxy`
 
