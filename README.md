@@ -19,10 +19,12 @@ Sample URLs to launch with your hardware or software media player:
 
 Tested with 10.15 Catalina
 
+* Use "all in one" script for easy install: `/bin/zsh <(curl -fsSL https://raw.githubusercontent.com/aisayev/ffmpeg-proxy/master/contrib/ffmpeg-proxy-osx-install-all)` , or
 * Install homebrew packet manager by running `/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"` 
 * Run `brew install ffmpeg` 
 * Install ffmpeg-proxy with `/bin/zsh <(curl -fsSL https://raw.githubusercontent.com/aisayev/ffmpeg-proxy/master/contrib/ffmpeg-proxy-osx-install)`
 * To uninstall use `/bin/zsh <(curl -fsSL https://raw.githubusercontent.com/aisayev/ffmpeg-proxy/master/contrib/ffmpeg-proxy-osx-uninstall)`
+
 
 ## Linux Install
 
@@ -35,7 +37,7 @@ Tested with Ubuntu 18.04
 * Add service `sudo echo -e "ffmpeg-proxy\t32033/tcp\t\t\t# ffmpeg-proxy server" >> /etc/services`
 * Restart xinetd with `sudo service xinetd restart`
 
+
 ## Docker
 
 * Run `docker run -p 32033:32033 -d aisayev/ffmpeg-proxy`
-
