@@ -1,0 +1,88 @@
+#!/bin/zsh
+echo "Installing homebrew..."
+
+/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+
+echo "Installing ffmpeg..."
+
+brew install ffmpeg
+
+echo "Installing ffmpeg-proxy..."
+
+PREFIX="/usr/local/sbin"
+
+[ -d $PREFIX ] || sudo mkdir $PREFIX
+
+sudo cat <<\EOT > $PREFIX/ffmpeg-proxy
+#!/bin/zsh
+
+# https://github.com/aisayev/ffmpeg-proxy
+
+read raw
+
+[[ $raw =~ '^GET /(https?:\/\/.+) HTTP' ]] && url=$match[1] 
+
+if [ -z "$url" ]
+
+then
+
+	echo "HTTP/1.1 400 Bad request"
+
+else
+
+	echo "HTTP/1.1 200 OK\n\rContent-Type: video/mp2t\n\rConnection: close\n\r"
+	
+	/usr/local/bin/ffmpeg -user-agent "Mozilla/5.0 (QtEmbedded; U; Linux; C) AppleWebKit/533.3 (KHTML, like Gecko) MAG200 stbapp ver: 2 rev: 234 Safari/533.3" -i $url -map 0 -c copy -hide_banner -nostats -loglevel 0 -metadata service_provider=ffmpeg-proxy -metadata service_name=IPTV -f mpegts -
+
+fi
+
+EOT
+
+sudo chmod +x $PREFIX/ffmpeg-proxy
+
+cat <<\EOT > /tmp/io.github.aisayev.ffmpeg-proxy.plist
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--  https://github.com/aisayev/ffmpeg-proxy  -->
+<plist version="1.0">
+  <dict>
+    <key>Disabled</key>
+    <true/>
+    <key>Label</key>
+    <string>io.github.aisayev.ffmpeg-proxy</string>
+    <key>Program</key>
+    <string>/usr/local/sbin/ffmpeg-proxy</string>
+    <key>Sockets</key>
+    <dict>
+      <key>Listeners</key>
+      <dict>
+        <key>SockServiceName</key>
+        <string>32033</string>
+        <key>SockType</key>
+        <string>stream</string>
+        <key>SockProtocol</key>
+        <string>TCP</string>
+      </dict>
+    </dict>
+    <key>StandardErrorPath</key>
+    <string>/tmp/ffmpeg-proxy.log</string>
+    <key>inetdCompatibility</key>
+    <dict>
+      <key>Wait</key>
+      <false/>
+    </dict>
+    <key>UserName</key>
+    <string>nobody</string>
+    <key>GroupName</key>
+    <string>nobody</string>
+    <key>InitGroups</key>
+    <true/>
+  </dict>
+</plist>
+EOT
+
+sudo chown root /tmp/io.github.aisayev.ffmpeg-proxy.plist
+sudo mv /tmp/io.github.aisayev.ffmpeg-proxy.plist /Library/LaunchDaemons/
+sudo launchctl load -w /Library/LaunchDaemons/io.github.aisayev.ffmpeg-proxy.plist
+
+echo "Done."
