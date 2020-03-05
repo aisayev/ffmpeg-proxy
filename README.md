@@ -32,6 +32,7 @@ Tested with Ubuntu 18.04
 * Install xinetd `sudo apt-get install -y xinetd`
 * Put [ffmpeg-proxy-tcp](https://raw.githubusercontent.com/aisayev/ffmpeg-proxy/master/contrib/ffmpeg-proxy-tcp) to /etc/xinetd.d/
 * Put [ffmpeg-proxy](https://raw.githubusercontent.com/aisayev/ffmpeg-proxy/master/contrib/ffmpeg-proxy) to /usr/local/sbin and make it executable `sudo chmod +x ffmpeg-proxy`
+* Add service `sudo echo -e "ffmpeg-proxy\t32033/tcp\t\t\t# ffmpeg-proxy server" >> /etc/services`
 * Restart xinetd with `sudo service xinetd restart`
 
 
